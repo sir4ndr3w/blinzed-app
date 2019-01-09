@@ -1,0 +1,2 @@
+# blinzed-app
+Blinzed
