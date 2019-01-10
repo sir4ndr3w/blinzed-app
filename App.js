@@ -5,6 +5,7 @@ import AppNavigator from './navigation/AppNavigator';
 import MainTabNavigator from './navigation/MainTabNavigator';
 import { firebaseConfig } from './constants/firebaseConfig';
 import * as firebase from 'firebase';
+import Layout from './constants/Layout';
 
 export default class App extends React.Component {
 
@@ -76,6 +77,7 @@ export default class App extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: Layout.statusBarHeight,
         flex: 1,
         backgroundColor: '#fff',
     },

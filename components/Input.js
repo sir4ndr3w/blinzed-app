@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TextInput } from 'react-native';
 
 const Input = ({label, value, onChangeText, placeholder, secureTextEntry}) => {
   return (
-      <View>
+      <View style={styles.container}>
           <Text style={styles.label}>{label}</Text>
           <TextInput
             autoCorrect={false}
@@ -21,7 +21,7 @@ export { Input };
 
 const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        marginVertical: 5,
     },
     label: {
         paddingVertical: 5,

@@ -14,15 +14,15 @@ export default class LoginScreen extends React.Component {
 
     handleLoginPress = () => {
       //store.dispatch('LOGIN_USER');
-        console.log(this.state);
     };
 
-    handleRegisterPress = () => {
-
+    handleSignUpPress = () => {
+        //dispatch navigation
+        this.props.navigation.navigate('SignUp');
     };
 
     handleForgotPasswordPress = () => {
-
+        this.props.navigation.navigate('ForgotPassword');
     };
 
     render() {
@@ -43,6 +43,12 @@ export default class LoginScreen extends React.Component {
                 <Button onPress={() => this.handleLoginPress()}>
                     Login
                 </Button>
+                <Button onPress={() => this.handleSignUpPress()}>
+                    Sign Up
+                </Button>
+                <Button onPress={() => this.handleForgotPasswordPress()}>
+                    Forgot Password
+                </Button>
             </View>
         );
     }
@@ -50,7 +56,6 @@ export default class LoginScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 20,
         flex: 1,
         padding: 20,
         backgroundColor: '#fff',

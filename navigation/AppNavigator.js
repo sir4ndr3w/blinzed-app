@@ -12,6 +12,9 @@ const AppNavigator = createStackNavigator({
 },{
   initialRouteName: 'Login',
   headerMode: 'none',
+  defaultNavigationOptions: {
+    gesturesEnabled: false,
+  },
 });
 
 export default createAppContainer(AppNavigator);

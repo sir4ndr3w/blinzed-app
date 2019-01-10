@@ -22,10 +22,8 @@ const styles = StyleSheet.create({
     },
     buttonDisabled: {
         padding: 20,
-        borderColor: '#000',
-        borderBottomWidth: 2,
-        color: '#640007',
-        backgroundColor: '#fff',
+        color: '#ffffff',
+        backgroundColor: '#640007',
     },
     text: {
         fontWeight: "500",
