@@ -4,6 +4,8 @@ import * as firebase from 'firebase';
 import { eventChannel, buffers } from 'redux-saga';
 import { all, put, take, call, fork, cancel, flush } from 'redux-saga/effects'
 
+//todo: add generic function for calling watchListener for arbitrary Paths
+
 export function* rootSaga(){
     yield all([
         watchListener(types.metaTypes.user)

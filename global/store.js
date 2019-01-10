@@ -10,5 +10,3 @@ export const store = createStore(
 );
 
 sagaMiddleware.run(rootSaga);
-
-console.log('Das', store.getState());
