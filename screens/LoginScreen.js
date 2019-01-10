@@ -2,8 +2,11 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
+import { connect } from 'react-redux';
+import * as action from '../global/actions';
+import * as firebase from 'firebase';
 
-export default class LoginScreen extends React.Component {
+class LoginScreen extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -13,11 +16,28 @@ export default class LoginScreen extends React.Component {
     }
 
     handleLoginPress = () => {
-      //store.dispatch('LOGIN_USER');
+        firebase.auth().signInWithEmailAndPassword(this.state.userEmail, this.state.userPassword)
+            .then(() => {
+                this.props.dispatch(action.firebaseListenRequested('user/' + firebase.auth().currentUser.uid , 'user'));
+            }, (error) => {
+                console.log(error);
+                switch (error.message) {
+                    case 'The email address is badly formatted.':
+                        alert('Ungueltige E-Mailadresse.');
+                        break;
+                    case 'The password is invalid or the user does not have a password.':
+                        alert('Falsches Passwort oder kein Passwort angegeben.');
+                        break;
+                    case 'There is no user record corresponding to this identifier. The user may have been deleted.':
+                        alert('Falsche E-Mail oder falsches Passwort.');
+                        break;
+                    default:
+                        alert(error.message);
+                }
+            });
     };
 
     handleSignUpPress = () => {
-        //dispatch navigation
         this.props.navigation.navigate('SignUp');
     };
 
@@ -52,7 +72,9 @@ export default class LoginScreen extends React.Component {
             </View>
         );
     }
-};
+}
+
+export default connect(null,null)(LoginScreen);
 
 const styles = StyleSheet.create({
     container: {

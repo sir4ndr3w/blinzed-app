@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 11304,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
   "expoServerNgrokUrl": "https://qk-35f.sir4ndr3w.blinzed-app.exp.direct",
   "packagerNgrokUrl": "https://packager.qk-35f.sir4ndr3w.blinzed-app.exp.direct",
-  "ngrokPid": 1420
+  "ngrokPid": 11088
 }

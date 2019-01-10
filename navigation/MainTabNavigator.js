@@ -9,12 +9,12 @@ import ChatScreen from '../screens/auth/ChatScreen';
 
 const tabNavigator = createMaterialTopTabNavigator({
   Matches: MatchScreen,
-  PrivateProfile: PrivateProfileScreen,
+  Profile: PrivateProfileScreen,
   ChatList: ChatListScreen,
 }, {
   tabBarPosition: 'bottom',
-  swipeEnabled: 'true',
-  order: ['ChatList', 'Matches', 'PrivateProfile'],
+  swipeEnabled: true,
+  order: ['ChatList', 'Matches', 'Profile'],
   initialRouteName: 'Matches',
   animationsAreEnabled: true,
   lazy: true,

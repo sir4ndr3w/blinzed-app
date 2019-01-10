@@ -3,9 +3,11 @@ import {Platform, StatusBar, StyleSheet, View} from 'react-native';
 import {AppLoading, Asset, Font, Icon} from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import MainTabNavigator from './navigation/MainTabNavigator';
-import { firebaseConfig } from './constants/firebaseConfig';
+import {firebaseConfig} from './constants/firebaseConfig';
 import * as firebase from 'firebase';
 import Layout from './constants/Layout';
+import { store } from './global/store';
+import { Provider } from 'react-redux';
 
 export default class App extends React.Component {
 
@@ -17,7 +19,9 @@ export default class App extends React.Component {
             isAuthenticated: false,
         };
 
-        if(!firebase.apps.length){ firebase.initializeApp(firebaseConfig); }
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
         firebase.auth().onAuthStateChanged(this.onAuthStateChanged);
     }
 
@@ -65,11 +69,13 @@ export default class App extends React.Component {
             );
         } else {
             return (
-                <View style={styles.container}>
-                    {Platform.OS === 'ios' && <StatusBar barStyle="default"/>}
-                    {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
-                    {(this.state.isAuthenticated) ? <MainTabNavigator /> : <AppNavigator />}
-                </View>
+                <Provider store={store}>
+                    <View style={styles.container}>
+                        {Platform.OS === 'ios' && <StatusBar barStyle="default"/>}
+                        {Platform.OS === 'android' && <View style={styles.statusBarUnderlay}/>}
+                        {(this.state.isAuthenticated) ? <MainTabNavigator/> : <AppNavigator/>}
+                    </View>
+                </Provider>
             );
         }
     }
