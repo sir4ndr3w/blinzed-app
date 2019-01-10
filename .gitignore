@@ -10,6 +10,9 @@ bin-release/
 # node_modules
 node_modules/
 
+# firebase config
+constants/firebaseConfig.js
+
 # Executables
 *.swf
 *.air
