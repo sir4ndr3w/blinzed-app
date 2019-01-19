@@ -24,6 +24,8 @@ export const metaTypes = {
     chats: 'chats',
     profile: 'profile',
     user: 'user',
+    email: 'email',
+    password: 'password',
 };
 
 export const eventTypes = {

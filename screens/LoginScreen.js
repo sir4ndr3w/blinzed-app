@@ -18,7 +18,6 @@ class LoginScreen extends React.Component {
     handleLoginPress = () => {
         firebase.auth().signInWithEmailAndPassword(this.state.userEmail, this.state.userPassword)
             .then(() => {
-                this.props.dispatch(action.firebaseListenRequested('user/' + firebase.auth().currentUser.uid , 'user'));
             }, (error) => {
                 console.log(error);
                 switch (error.message) {

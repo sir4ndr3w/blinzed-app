@@ -39,7 +39,7 @@ const MainNavigator = createStackNavigator({
   EditPrivateProfile: {
     screen: EditPrivateProfileScreen,
     navigationOptions: {
-      gestureEnabled: false,
+      gesturesEnabled: false,
     }
   },
   Chat: {
@@ -48,6 +48,7 @@ const MainNavigator = createStackNavigator({
 },{
   headerMode: 'none',
   initialRouteName: 'tabNavigation',
+  swipeEnabled: false,
 });
 
 export default createAppContainer(MainNavigator);

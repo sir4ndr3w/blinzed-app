@@ -3,8 +3,13 @@ import { View, StyleSheet, Text } from 'react-native';
 import { Button } from '../../components/Button';
 import * as firebase from 'firebase';
 import { connect } from "react-redux";
+import * as actions from '../../global/actions';
 
 class MatchScreen extends React.Component {
+
+    componentDidMount(){
+        this.props.dispatch(actions.firebaseListenRequested('user/' + firebase.auth().currentUser.uid, 'profile'));
+    }
 
     handleLogoutPress = () => {
             firebase.auth().signOut()
@@ -17,15 +22,13 @@ class MatchScreen extends React.Component {
     };
 
     render() {
-        console.log('global state user', this.props.user);
-
         return (
             <View style={styles.container}>
                 <Text>
                     Matches
                 </Text>
                 <Text>
-                    {this.props.user.name}
+                    {this.props.profile.isLoaded ? this.props.profile.name : 'Test'}
                 </Text>
                 <Button onPress={this.handleLogoutPress}>
                     Logout
@@ -37,7 +40,7 @@ class MatchScreen extends React.Component {
 
 const stateToProps = (state) => {
     return {
-        user: state.user
+        profile: state.profile
     };
 };
 

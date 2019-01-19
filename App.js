@@ -3,7 +3,7 @@ import {Platform, StatusBar, StyleSheet, View} from 'react-native';
 import {AppLoading, Asset, Font, Icon} from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import MainTabNavigator from './navigation/MainTabNavigator';
-import {firebaseConfig} from './constants/firebaseConfig';
+import { firebaseConfig } from './constants/firebaseConfig';
 import * as firebase from 'firebase';
 import Layout from './constants/Layout';
 import { store } from './global/store';

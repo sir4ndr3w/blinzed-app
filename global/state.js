@@ -1,10 +1,11 @@
 export const initialState = {
     uid: null,
-    user: {
+    profile: {
         isLoaded: false,
-        inProgress: true,
-        error: "",
-        name: "",
+        isUpdated: false,
+        inProgress: {},
+        error: {},
+        name: null,
         email: null,
         phone: null,
         birthday: null,
@@ -14,6 +15,7 @@ export const initialState = {
         isLoaded: false,
         inProgress: false,
         error: "",
+        liste: {},
     },
     chats: {
         isLoaded: false,

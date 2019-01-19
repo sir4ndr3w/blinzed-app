@@ -1,16 +1,71 @@
-import * as types from './types';
 import * as actions from './actions';
 import * as firebase from 'firebase';
-import { eventChannel, buffers } from 'redux-saga';
-import { all, put, take, call, fork, cancel, flush } from 'redux-saga/effects'
+import * as types from './types';
+import {eventChannel, buffers} from 'redux-saga';
+import {all, put, take, call, fork, cancel, flush} from 'redux-saga/effects'
 
 //todo: add generic function for calling watchListener for arbitrary Paths
 
-export function* rootSaga(){
+export function* rootSaga() {
     yield all([
-        watchListener(types.metaTypes.user)
+        watchListener(types.metaTypes.profile),
+        watchUpdater(),
     ]);
 }
+
+export function* watchUpdater() {
+    while (true) {
+        const listenUpdateAction = yield take(
+            types.firebase.FIREBASE_UPDATE_REQUESTED
+        );
+
+        switch(listenUpdateAction.meta.type){
+            case types.metaTypes.email:
+                yield call(updateUserEmail, listenUpdateAction.payload, listenUpdateAction.meta.type);
+                break;
+            case types.metaTypes.password:
+                yield call(updateUserPassword, listenUpdateAction.payload, listenUpdateAction.meta.type);
+                break;
+            case types.metaTypes.profile:
+                yield call(updateUserProfile, listenUpdateAction.payload, listenUpdateAction.meta.type);
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+export function* updateUserEmail(payload, metaType){
+    try {
+        let user = firebase.auth().currentUser;
+        yield call([user, user.updateEmail], payload.email);
+        yield put(actions.firebaseUpdateFulfilled(metaType, payload));
+    } catch(error) {
+        yield put(actions.firebaseUpdateRejected(error, metaType));
+    }
+}
+
+export function* updateUserPassword(payload, metaType){
+    try {
+        let user = firebase.auth().currentUser;
+        yield call([user, user.updatePassword], payload.password);
+        yield put(actions.firebaseUpdateFulfilled(metaType, payload));
+    } catch(error) {
+        yield put(actions.firebaseUpdateRejected(error, metaType));
+    }
+}
+
+export function* updateUserProfile(payload, metaType){
+    try {
+        let uid = firebase.auth().currentUser.uid;
+        let ref = firebase.database().ref('user/' + uid);
+        yield call([ref, ref.update], payload);
+        yield put(actions.firebaseUpdateFulfilled(metaType, payload));
+    } catch(error) {
+        yield put(actions.firebaseUpdateRejected(error, metaType));
+    }
+}
+
 
 export function* watchListener(metaType) {
     while (true) {
@@ -74,9 +129,10 @@ export function* getDataAndListenToChannel(ref, metaType) {
             yield flush(chan);
             const val = snap.val();
             const value = val ? val : {};
-            yield put(actions.firebaseListenFulfilled(value, metaType))
+            console.log('fulfilled');
+            yield put(actions.firebaseListenFulfilled(value, metaType));
         } catch (error) {
-            yield put(actions.firebaseListenRejected(error, metaType))
+            yield put(actions.firebaseListenRejected(error, metaType));
         }
         while (true) {
             const data = yield take(chan);
