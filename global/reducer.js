@@ -30,19 +30,26 @@ export function reducer(state = initialState, action) {
         case types.firebase.FIREBASE_UPDATE_FULFILLED:
             if(action.meta.type === types.metaTypes.profile || action.meta.type === types.metaTypes.email || action.meta.type === types.metaTypes.password ){
                 let newState = Object.assign({}, state);
-                delete newState.profile.inProgress[action.meta.type];
-                delete newState.profile.error[action.meta.type];
+                const { [action.meta.type]: error, ...otherErrors } = newState.profile.error;
+                let newError = otherErrors;
 
-                return newState;
+                const { [action.meta.type]: progress, ...otherProgress } = newState.profile.inProgress;
+                let newProgress = otherProgress;
+                console.log('next state', Object.assign({}, newState, {...newState, profile: {...newState.profile, error: newError, inProgress: newProgress}}));
+                return Object.assign({}, newState, {...newState, profile: {...newState.profile, error: newError, inProgress: newProgress}});
             }
             status = Object.assign({}, state[action.meta.type],{ inProgress: false, isLoaded: true }, action.payload);
             return Object.assign({}, state, { [action.meta.type]: status });
 
         case types.firebase.FIREBASE_UPDATE_REJECTED:
+            //todo change from delete to spread operator
             if(action.meta.type === types.metaTypes.profile || action.meta.type === types.metaTypes.email || action.meta.type === types.metaTypes.password ){
-                let newState = Object.assign({}, state, {...state, profile: {...state.profile, error: {...state.profile.error, [action.meta.type]: action.payload.error.message}}});
-                delete newState.profile.inProgress[action.meta.type];
-                return newState;
+                let newState = Object.assign({}, state);
+                const { [action.meta.type]: progress, ...otherProgress } = newState.profile.inProgress;
+                let newProgress = otherProgress;
+                let newErrors = Object.assign({}, newState.profile.error, {[action.meta.type]: action.payload.error});
+                console.log('next state', Object.assign({}, newState, {...newState, profile: {...newState.profile, inProgress: newProgress}}));
+                return Object.assign({}, newState, {...newState, profile: {...newState.profile, inProgress: newProgress, error: newErrors}});
             }
 
             return Object.assign({}, state, {[action.meta.type]: { inProgress: false, error: action.payload.error }});

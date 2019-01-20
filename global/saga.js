@@ -21,13 +21,13 @@ export function* watchUpdater() {
 
         switch(listenUpdateAction.meta.type){
             case types.metaTypes.email:
-                yield call(updateUserEmail, listenUpdateAction.payload, listenUpdateAction.meta.type);
+                yield fork(updateUserEmail, listenUpdateAction.payload, listenUpdateAction.meta.type);
                 break;
             case types.metaTypes.password:
-                yield call(updateUserPassword, listenUpdateAction.payload, listenUpdateAction.meta.type);
+                yield fork(updateUserPassword, listenUpdateAction.payload, listenUpdateAction.meta.type);
                 break;
             case types.metaTypes.profile:
-                yield call(updateUserProfile, listenUpdateAction.payload, listenUpdateAction.meta.type);
+                yield fork(updateUserProfile, listenUpdateAction.payload, listenUpdateAction.meta.type);
                 break;
             default:
                 break;

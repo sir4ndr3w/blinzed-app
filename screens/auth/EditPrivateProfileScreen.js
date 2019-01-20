@@ -22,8 +22,8 @@ class EditPrivateProfileScreen extends React.Component {
     }
 
     handleProfileUpdate() {
-        //todo check what fields have been changed
-
+        //todo email und password auf getrennten Seiten aendern sonst ist die Session ungueltig
+        
         if(this.state.email !== '' && this.checkFormEmail()){
         //    this.emailRef.current.clear();
             this.props.dispatch(action.firebaseUpdateRequested({email: this.state.email}, types.metaTypes.email));
@@ -31,7 +31,7 @@ class EditPrivateProfileScreen extends React.Component {
             alert("E-Mail ungueltig");
         }
 
-        if(this.state.password !== '' && this.checkFormPassword()){
+        if(this.state.password !== ''){
         //    this.passwordRef.current.clear();
             this.props.dispatch(action.firebaseUpdateRequested({password: this.state.password}, types.metaTypes.password));
         } else if (this.state.password !== '' && !this.checkFormPassword()){
@@ -50,22 +50,29 @@ class EditPrivateProfileScreen extends React.Component {
     }
 
     checkFormPassword(){
+        console.log(this.state.password, this.state.password === this.state.passwordRepeat, this.state.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/));
+
         return (this.state.password === this.state.passwordRepeat && this.state.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/));
     }
 
     render() {
-        let fehler = 'Ich bin Bob';
-        console.log(this.props.profile);
+        let fehler = '';
+        let updating = '';
+        let errors = this.props.profile.error;
+        let inProgress = this.props.profile.inProgress;
 
-        if(Object.keys(this.props.profile.error).length > 0){
-            fehler = '';
-            Object.keys(this.props.profile.error).map(function(value, index, arr){
-                console.log(value);
-                fehler += [arr[index]];
+        if(Object.keys(inProgress).length > 0){
+            updating = '';
+            Object.keys(inProgress).map(function(value, index, arr){
+                updating += value;
             });
-            console.log(fehler);
-        } else {
-            console.log('Keine Errors');
+        }
+
+        if(Object.keys(errors).length > 0){
+            fehler = '';
+            Object.keys(errors).map(function(value, index, arr){
+                fehler += errors[value];
+            });
         }
 
         return (
@@ -73,7 +80,9 @@ class EditPrivateProfileScreen extends React.Component {
                 <Text>
                     {fehler}
                 </Text>
-
+                <Text>
+                    {updating}
+                </Text>
                 <Input
                     label={'Edit Email'}
                     placeholder={this.props.profile.email}
