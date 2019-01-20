@@ -6,6 +6,8 @@ import MatchScreen from "../screens/auth/MatchScreen";
 import ChatListScreen from "../screens/auth/ChatListScreen";
 import EditPrivateProfileScreen from "../screens/auth/EditPrivateProfileScreen";
 import ChatScreen from '../screens/auth/ChatScreen';
+import EditPrivateProfileEmail from "../screens/auth/EditPrivateProfileEmail";
+import EditPrivateProfilePassword from "../screens/auth/EditPrivateProfilePassword";
 
 const tabNavigator = createMaterialTopTabNavigator({
   Matches: MatchScreen,
@@ -38,6 +40,18 @@ const MainNavigator = createStackNavigator({
   },
   EditPrivateProfile: {
     screen: EditPrivateProfileScreen,
+    navigationOptions: {
+      gesturesEnabled: false,
+    }
+  },
+  EditPrivateProfileEmail: {
+    screen: EditPrivateProfileEmail,
+    navigationOptions: {
+      gesturesEnabled: false,
+    }
+  },
+  EditPrivateProfilePassword: {
+    screen: EditPrivateProfilePassword,
     navigationOptions: {
       gesturesEnabled: false,
     }

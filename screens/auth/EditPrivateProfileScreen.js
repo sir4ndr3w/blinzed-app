@@ -23,13 +23,6 @@ class EditPrivateProfileScreen extends React.Component {
 
     handleProfileUpdate() {
         //todo email und password auf getrennten Seiten aendern sonst ist die Session ungueltig
-        
-        if(this.state.email !== '' && this.checkFormEmail()){
-        //    this.emailRef.current.clear();
-            this.props.dispatch(action.firebaseUpdateRequested({email: this.state.email}, types.metaTypes.email));
-        } else if (this.state.email !== '' && !this.checkFormEmail()){
-            alert("E-Mail ungueltig");
-        }
 
         if(this.state.password !== ''){
         //    this.passwordRef.current.clear();
@@ -45,8 +38,12 @@ class EditPrivateProfileScreen extends React.Component {
         this.props.navigation.navigate('Profile');
     }
 
-    checkFormEmail(){
-        return this.state.email.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/);
+    handleEmailChangePress(){
+        this.props.navigation.navigate('EditPrivateProfileEmail');
+    }
+
+    handlePasswordChangePress(){
+        this.props.navigation.navigate('EditPrivateProfilePassword');
     }
 
     checkFormPassword(){
@@ -56,59 +53,13 @@ class EditPrivateProfileScreen extends React.Component {
     }
 
     render() {
-        let fehler = '';
-        let updating = '';
-        let errors = this.props.profile.error;
-        let inProgress = this.props.profile.inProgress;
-
-        if(Object.keys(inProgress).length > 0){
-            updating = '';
-            Object.keys(inProgress).map(function(value, index, arr){
-                updating += value;
-            });
-        }
-
-        if(Object.keys(errors).length > 0){
-            fehler = '';
-            Object.keys(errors).map(function(value, index, arr){
-                fehler += errors[value];
-            });
-        }
-
         return (
             <View style={styles.container}>
-                <Text>
-                    {fehler}
-                </Text>
-                <Text>
-                    {updating}
-                </Text>
-                <Input
-                    label={'Edit Email'}
-                    placeholder={this.props.profile.email}
-                    onChangeText={email => this.setState({email: email})}
-                    value={this.state.email}
-                    inputRef={this.emailRef}
-                />
-
-                <Input
-                    label={'Edit Password'}
-                    placeholder={'********'}
-                    onChangeText={password => this.setState({password: password})}
-                    value={this.state.password}
-                    inputRef={this.passwordRef}
-                />
-
-                <Input
-                    label={'Repeat Password'}
-                    placeholder={'********'}
-                    onChangeText={passwordRepeat => this.setState({passwordRepeat: passwordRepeat})}
-                    value={this.state.passwordRepeat}
-                    inputRef={this.passwordRepeatRef}
-                />
-
-                <Button onPress={() => this.handleProfileUpdate()}>
-                    <Text>Update Profile</Text>
+                <Button onPress={() => this.handleEmailChangePress()}>
+                    Email wechseln
+                </Button>
+                <Button onPress={() => this.handlePasswordChangePress()}>
+                    <Text>Password wechseln</Text>
                 </Button>
 
                 <Button onPress={() => this.handleCancelUpdate()}>
@@ -130,7 +81,6 @@ export default connect(stateToProps, null)(EditPrivateProfileScreen);
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 20,
         backgroundColor: '#fff',
     },
 });
