@@ -9,6 +9,9 @@ import {all, put, take, call, fork, cancel, flush} from 'redux-saga/effects'
 export function* rootSaga() {
     yield all([
         watchListener(types.metaTypes.profile),
+        watchListener(types.metaTypes.chats),
+        watchListener(types.metaTypes.messages),
+
         watchUpdater(),
     ]);
 }

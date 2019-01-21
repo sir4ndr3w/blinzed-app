@@ -12,7 +12,8 @@ const Input = ({label, value, onChangeText, placeholder, secureTextEntry, inputR
             onChangeText={onChangeText}
             style={styles.input}
             secureTextEntry = {secureTextEntry}
-            ref={inputRef}
+            ref={component => inputRef = component}
+            clearButtonMode={'always'}
           />
       </View>
   );

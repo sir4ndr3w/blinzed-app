@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, TextInput, TouchableOpacity, Keyboard} from 'react-native';
 import {connect} from 'react-redux';
 import * as action from '../../global/actions';
 import * as types from '../../global/types';
@@ -22,6 +22,8 @@ class EditPrivateProfilePassword extends React.Component {
         if(this.state.password !== ''){
             //    this.passwordRef.current.clear();
             this.props.dispatch(action.firebaseUpdateRequested({password: this.state.password}, types.metaTypes.password));
+            this.setState({...this.state, password: '', passwordRepeat: ''});
+            Keyboard.dismiss();
         } else if (this.state.password !== '' && !this.checkFormPassword()){
             alert("Passwort ungueltig oder keine Uebereinstimmung");
         }
@@ -29,8 +31,9 @@ class EditPrivateProfilePassword extends React.Component {
 
     handleCancelUpdate() {
         //todo clear inputs properly
-        this.setState({userName: null, userPassword: null});
-        this.props.navigation.navigate('EditPrivateProfile');
+        this.setState({...this.state, password: '', passwordRepeat: ''});
+        Keyboard.dismiss();
+        setTimeout(() => {this.props.navigation.navigate('EditPrivateProfile');}, 200);
     }
 
     checkFormPassword(){
