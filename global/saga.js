@@ -26,6 +26,9 @@ export function* watchUpdater() {
             case types.metaTypes.email:
                 yield fork(updateUserEmail, listenUpdateAction.payload, listenUpdateAction.meta.type);
                 break;
+            case types.metaTypes.user:
+                yield fork(addUser, listenUpdateAction.payload, listenUpdateAction.meta.type);
+                break;
             case types.metaTypes.password:
                 yield fork(updateUserPassword, listenUpdateAction.payload, listenUpdateAction.meta.type);
                 break;
@@ -36,6 +39,12 @@ export function* watchUpdater() {
                 break;
         }
     }
+}
+
+export function* addUser(){
+    //check if email oder phone number
+    //add user
+    //return success or fail
 }
 
 export function* updateUserEmail(payload, metaType){

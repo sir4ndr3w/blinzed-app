@@ -8,10 +8,11 @@ export default class SignUpScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: "",
-            userEmail: "",
-            userPassword: "",
-            userBirthdate: new Date(),
+            firstName: "",
+            lastName: "",
+            credential: "",
+            password: "",
+            birthdate: new Date(),
         };
 
         this.setBirthdate = this.setBirthdate.bind(this);
@@ -26,40 +27,53 @@ export default class SignUpScreen extends React.Component {
     };
 
     setBirthdate(newDate) {
-        this.setState({userBirthdate: newDate});
+        this.setState({birthdate: newDate});
     };
 
     checkFormCompletion = () => {
-        let validName = this.state.userName.match(/^[A-z-]{1,}[ ][A-z-]{1,}([A-z]([- ]?[A-z]{2,})*)$/);
-        let validPassword = this.state.userPassword.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
-        let validEmail = this.state.userEmail.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/);
+        let validFirstName = this.state.firstName.match(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u);
+        let validLastName = this.state.lastName.match(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u);
+        let validPassword = this.state.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#@$!%*?&])[A-Za-z\d@$!%*?&#]{8,}$/);
 
-        return (validName === null || validPassword === null || validEmail === null);
+        let validEmail = this.state.credential.match(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/);
+        let validPhone = this.state.credential.match(/^([+ 0-9]{5,20})$/);
+
+        console.log(validFirstName, validLastName, validPassword, validEmail, validPhone);
+
+        return (validFirstName === null || validLastName === null || validPassword === null || validEmail === null);
     };
 
     render() {
         return (
             <View style={styles.container}>
                 <Input
-                    label={'Full Name'}
+                    label={'Vorname'}
                     placeholder={'Max Muster'}
-                    onChangeText={userName => this.setState({userName})}
-                    value={this.state.userName}
+                    onChangeText={firstName => this.setState({firstName})}
+                    value={this.state.firstName}
                 />
+
+                <Input
+                    label={'Nachname'}
+                    placeholder={'Max Muster'}
+                    onChangeText={lastName => this.setState({lastName})}
+                    value={this.state.lastName}
+                />
+
                 <Input
                     label={'E-Mail or Phone Number'}
                     placeholder={'Max Muster'}
-                    onChangeText={userEmail => this.setState({userEmail})}
-                    value={this.state.userEmail}
+                    onChangeText={credential => this.setState({credential})}
+                    value={this.state.credential}
                 />
                 <Input
                     label={'Password'}
                     placeholder={'********'}
-                    onChangeText={userPassword => this.setState({userPassword})}
-                    value={this.state.userPassword}
+                    onChangeText={password => this.setState({password})}
+                    value={this.state.password}
                 />
                 <DatePickerIOS
-                    date={this.state.userBirthdate}
+                    date={this.state.birthdate}
                     onDateChange={(newDate) => this.setBirthdate(newDate)}
                     mode={'date'}
                     maximumDate={new Date(new Date().setFullYear(new Date().getFullYear() - 18))}
