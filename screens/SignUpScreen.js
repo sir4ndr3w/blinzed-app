@@ -2,6 +2,9 @@ import React from 'react';
 import {View, StyleSheet, Text, DatePickerIOS, DatePickerAndroid} from 'react-native';
 import {Button} from "../components/Button";
 import {Input} from "../components/Input";
+import * as firebase from "firebase";
+import * as actions from '../global/actions';
+import * as types from '../global/types';
 
 export default class SignUpScreen extends React.Component {
 
@@ -12,13 +15,19 @@ export default class SignUpScreen extends React.Component {
             userEmail: "",
             userPassword: "",
             userBirthdate: new Date(),
+            error: '',
         };
 
         this.setBirthdate = this.setBirthdate.bind(this);
     }
 
     handleRegisterPress = () => {
-        //dispatch register user
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(() => {
+            //todo save success in state to show progress
+            this.props.dispatch(actions.firebaseUpdateRequested({name: this.state.userName, birthdate: this.state.userBirthdate}, types.metaTypes.profile));
+        }).catch((error) => {
+            this.setState({error: error});
+        });
     };
 
     handleCancelRegisterPress = () => {
@@ -40,6 +49,9 @@ export default class SignUpScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <Text>
+                    {this.state.error}
+                </Text>
                 <Input
                     label={'Full Name'}
                     placeholder={'Max Muster'}
