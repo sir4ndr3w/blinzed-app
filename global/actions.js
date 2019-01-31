@@ -71,3 +71,19 @@ export function firebaseUpdateFulfilled(metaType, payload) {
         meta: {type: metaType},
     }
 }
+
+export function loadMatch(ref, metaType) {
+    return {
+        type: types.firebase.LOAD_MATCH_REQUESTED,
+        payload: {ref},
+        meta: {type: metaType}
+    }
+}
+
+export function moveMatch(ref, metaType) {
+    return {
+        type: types.firebase.MOVE_MATCH_REQUESTED,
+        payload: {ref},
+        meta: {type: metaType},
+    }
+}

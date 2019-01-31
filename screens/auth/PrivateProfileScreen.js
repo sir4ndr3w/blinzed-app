@@ -2,12 +2,23 @@ import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Button} from '../../components/Button';
 import {connect} from 'react-redux';
+import * as firebase from "firebase";
 
 class PrivateProfileScreen extends React.Component {
 
     handleNavigateProfile() {
         this.props.navigation.navigate('EditPrivateProfile');
     }
+
+    handleLogoutPress = () => {
+        firebase.auth().signOut()
+            .then(() => {
+                this.setState({user: null});
+            })
+            .catch(function (error) {
+                alert(error.message);
+            });
+    };
 
     render() {
         return (
@@ -25,6 +36,11 @@ class PrivateProfileScreen extends React.Component {
                 <Button onPress={() => this.handleNavigateProfile()}>
                     <Text>Edit Profile</Text>
                 </Button>
+
+                <Button onPress={this.handleLogoutPress}>
+                    Logout
+                </Button>
+
             </View>
         );
     }

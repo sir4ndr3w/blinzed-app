@@ -12,7 +12,7 @@ export function reducer(state = initialState, action) {
 
         //Listen
         case types.firebase.FIREBASE_LISTEN_REQUESTED:
-            return Object.assign({},state);
+            return Object.assign({}, state);
         case types.firebase.FIREBASE_LISTEN_FULFILLED:
             status = Object.assign({}, state[action.meta.type],{ isLoaded: true }, action.payload);
             return Object.assign({}, state, { [action.meta.type]: status });
